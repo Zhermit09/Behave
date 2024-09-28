@@ -45,7 +45,7 @@ public class Behave {
 
     public static void load() {
         try {
-        URI uri = new URI("https://raw.githubusercontent.com/Zhermit09/Behave/refs/heads/main/src/fuckAll/timeFrame.txt");
+        URI uri = new URI("https://raw.githubusercontent.com/Zhermit09/Behave/refs/heads/main/src/main/resources/timeFrame.txt");
             BufferedReader timeFrames = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
             String line;
             while ((line = timeFrames.readLine()) != null) {
