@@ -20,6 +20,7 @@ public class Behave {
 
 
     public static void main(String[] args) {
+
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> {
             load();
@@ -40,7 +41,7 @@ public class Behave {
                 checkTime(from, to);
             }
 
-        }, 0, 3, TimeUnit.MINUTES);
+        }, 0, 5, TimeUnit.MINUTES);
     }
 
     public static void load() {
@@ -52,18 +53,21 @@ public class Behave {
                 String[] args = Arrays.stream(line.split("-")).filter(e -> !e.isEmpty()).toArray(String[]::new);
                 for (String arg : args) {
                     String[] temp = arg.trim().split(" ");
+                    String[] time  = temp[1].trim().split(":");
+                    int h = Integer.parseInt(time[0]) % 24;
+                    int m = Integer.parseInt(time[1]) % 60;
                     switch (temp[0].trim()) {
                         case "f":
-                            from = LocalTime.of(Integer.parseInt(temp[1].trim()) % 24, 0);
+                            from = LocalTime.of(h, m);
                             break;
                         case "t":
-                            to = LocalTime.of(Integer.parseInt(temp[1].trim()) % 24, 0);
+                            to = LocalTime.of(h, m);
                             break;
                         case "fw":
-                            fromW = LocalTime.of(Integer.parseInt(temp[1].trim()) % 24, 0);
+                            fromW = LocalTime.of(h, m);
                             break;
                         case "tw":
-                            toW = LocalTime.of(Integer.parseInt(temp[1].trim()) % 24, 0);
+                            toW = LocalTime.of(h, m);
                             break;
                     }
                 }
@@ -89,14 +93,6 @@ public class Behave {
         if (start.isBefore(curr) && curr.isBefore(end)) {
             kill();
         }
-
-
-       /* if (from > to && (from <= h || h <= to)) {
-            kill();
-        }
-        if (from <= h && h <= to) {
-            kill();
-        }*/
     }
 
     public static void kill() {
